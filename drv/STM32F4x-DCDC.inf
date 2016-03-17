@@ -1,0 +1,64 @@
+[Version]
+Signature="$Windows NT$"
+Class=Ports
+ClassGuid={4D36E978-E325-11CE-BFC1-08002BE10318}
+Provider=%STM32F4x%
+DriverVer=07/22/2015,1.1.0.0
+CatalogFile.ntx86 = STM32F4x_DCDC.cat
+CatalogFile.ntamd64 = STM32F4x_DCDC.cat
+
+[Manufacturer]
+%STM32F4x%=DeviceList,ntamd64
+
+[DeviceList]
+%DESCRIPTION%=STM32F4x, USB\VID_0483&PID_5741
+%COMPOSITE0% =STM32F4x, USB\VID_0483&PID_5741&MI_00
+%COMPOSITE2% =STM32F4x, USB\VID_0483&PID_5741&MI_02
+
+[DeviceList.ntamd64]
+%DESCRIPTION%=STM32F4x, USB\VID_0483&PID_5741
+%COMPOSITE0% =STM32F4x, USB\VID_0483&PID_5741&MI_00
+%COMPOSITE2% =STM32F4x, USB\VID_0483&PID_5741&MI_02
+
+;------------------------------------------------------------------------------
+;  Installation
+;------------------------------------------------------------------------------
+
+[SourceDisksFiles]
+
+[SourceDisksNames]
+
+[DestinationDirs]
+FakeModemCopyFileSection=12
+DefaultDestDir=12
+
+[STM32F4x]
+include=mdmcpq.inf
+CopyFiles=FakeModemCopyFileSection
+AddReg=STM32F4x.AddReg
+
+[STM32F4x.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,usbser.sys
+HKR,,EnumPropPages32,,"MsPorts.dll,SerialPortPropPageProvider"
+
+[STM32F4x.Services]
+AddService=usbser, 0x00000002, DriverService
+
+[DriverService]
+DisplayName=%DRIVER.SVC%
+ServiceType=1
+StartType=3
+ErrorControl=1
+ServiceBinary=%12%\usbser.sys
+
+;------------------------------------------------------------------------------
+;  String Definitions
+;------------------------------------------------------------------------------
+
+[Strings]
+STM32F4x       = "STM32F4x"
+DRIVER.SVC = "STM32F4x DCDC Driver"
+DESCRIPTION= "STM32F4x DCDC Driver"
+COMPOSITE0 = "STM32F4x PORT1"
+COMPOSITE2 = "STM32F4x PORT2"
